@@ -5,7 +5,7 @@
 #include "iomanip"
 #include "string"
 #include "iterator"
-
+#include "algorithm"
 
 
 namespace DataStruct
@@ -24,6 +24,11 @@ namespace DataStruct
 	struct LongLongIO
 	{
 		int long long& ref;
+	};
+	
+	struct LabelIO
+	{
+		std::string& ref;
 	};
 
 	struct DelimiterIO
@@ -49,6 +54,7 @@ namespace DataStruct
 	std::istream& operator>>(std::istream& in, LongLongIO&& dest);
 	std::istream& operator>>(std::istream& in, ComplexIO&& dest);
 	std::istream& operator>>(std::istream& in, DoubleIO&& dest);
+	std::istream& operator>>(std::istream& in, LabelIO&& dest);
 
 
 	class ScopeGuard

@@ -40,337 +40,47 @@ namespace DataStruct
 			return in;
 		}
 		DataStruct tmp;
+		const size_t countKey = 3;
 		{
+			std::string lbl[countKey]={"","",""};
 			in >> DelimiterIO{ '(' } >> DelimiterIO{ ':' };
-			std::string str;
-			std::istream_iterator<char> beg(in);
-			for (int i = 0; i < 4 && *beg != '\0'; ++i)
+			for (int i = 0; i < countKey && in; i++)
 			{
-				if (i != 3)
+				std::string str;
+				in >> LabelIO{ str };
+				bool isNFound = std::find(std::cbegin(lbl), std::cend(lbl), str) == std::cend(lbl);
+				if (!isNFound)
 				{
-					str += *beg;
-					beg++;
+					in.setstate(std::ios::failbit);
+					return in;
+				}
+				lbl[i] = str;
+				if (lbl[i] == "key1")
+				{
+					in >> LongLongIO{ tmp.key1 };
+				}
+				else if (lbl[i] == "key2")
+				{
+					in >> ComplexIO{ tmp.key2 };
+				}
+				else if (lbl[i] == "key3")
+				{
+					in >> StringIO{ tmp.key3 };
 				}
 				else
 				{
-					str += *beg;
+					in.setstate(std::ios::failbit);
+					return in;
 				}
+				in >> DelimiterIO{ ':' };
 			}
-			if (str == "key1" && in)
-			{
-				in >> LongLongIO{ tmp.key1 } >> DelimiterIO{ ':' };
-				std::string str1;
-				std::istream_iterator<char> beg(in);
-				if (!in)
-				{
-					in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					return in;
-				}
-				for (int i = 0; i < 4 && *beg != '\0'; ++i)
-				{
-					if (i != 3)
-					{
-						str1 += *beg;
-						beg++;
-					}
-					else
-					{
-						str1 += *beg;
-					}
-				}
-				if (str1 == "key2" && in)
-				{
-					in >> ComplexIO{ tmp.key2 } >> DelimiterIO{ ':' };
-					std::string str2;
-					std::istream_iterator<char> beg(in);
-					if (!in)
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-					for (int i = 0; i < 4 && *beg != '\0'; ++i)
-					{
-						if (i != 3)
-						{
-							str2 += *beg;
-							beg++;
-						}
-						else
-						{
-							str2 += *beg;
-						}
-					}
-					if (str2 == "key3" && in)
-					{
-						in >> StringIO{ tmp.key3 } >> DelimiterIO{ ':' } >> DelimiterIO{ ')' };
-						if (in)
-						{
-							dest = tmp;
-						}
-						return in;
-					}
-					else
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-				}
-				else if (str1 == "key3" && in)
-				{
-					in >> StringIO{ tmp.key3 } >> DelimiterIO{ ':' };
-					std::string str2;
-					std::istream_iterator<char> beg(in);
-					if (!in)
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-					for (int i = 0; i < 4 && *beg != '\0'; ++i)
-					{
-						if (i != 3)
-						{
-							str2 += *beg;
-							beg++;
-						}
-						else
-						{
-							str2 += *beg;
-						}
-					}
-					if (str2 == "key2" && in)
-					{
-						in >> ComplexIO{ tmp.key2 } >> DelimiterIO{ ':' } >> DelimiterIO{ ')' };
-						if (in)
-						{
-							dest = tmp;
-						}
-						return in;
-					}
-					else
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-				}
-				else
-				{
-					in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					return in;
-				}
-			}
-			else if (str == "key2")
-			{
-				in >> ComplexIO{ tmp.key2 } >> DelimiterIO{ ':' };
-				std::string str1;
-				std::istream_iterator<char> beg(in);
-				if (!in)
-				{
-					in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					return in;
-				}
-				for (int i = 0; i < 4 && *beg != '\0'; ++i)
-				{
-					if (i != 3)
-					{
-						str1 += *beg;
-						beg++;
-					}
-					else
-					{
-						str1 += *beg;
-					}
-				}
-				if (str1 == "key1" && in)
-				{
-					in >> LongLongIO{ tmp.key1 } >> DelimiterIO{ ':' };
-					std::string str2;
-					std::istream_iterator<char> beg(in);
-					if (!in)
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-					for (int i = 0; i < 4 && *beg != '\0'; ++i)
-					{
-						if (i != 3)
-						{
-							str2 += *beg;
-							beg++;
-						}
-						else
-						{
-							str2 += *beg;
-						}
-					}
-					if (str2 == "key3")
-					{
-						in >> StringIO{ tmp.key3 } >> DelimiterIO{ ':' } >> DelimiterIO{ ')' };
-						if (in)
-						{
-							dest = tmp;
-						}
-						return in;
-
-					}
-					else
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-				}
-				else if (str1 == "key3" && in)
-				{
-					in >> StringIO{ tmp.key3 } >> DelimiterIO{ ':' };
-					std::string str2;
-					std::istream_iterator<char> beg(in);
-					if (!in)
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-					for (int i = 0; i < 4 && *beg != '\0'; ++i)
-					{
-						if (i != 3)
-						{
-							str2 += *beg;
-							beg++;
-						}
-						else
-						{
-							str2 += *beg;
-						}
-					}
-					if (str2 == "key1")
-					{
-						in >> LongLongIO{ tmp.key1 } >> DelimiterIO{ ':' } >> DelimiterIO{ ')' };
-						if (in)
-						{
-							dest = tmp;
-						}
-						return in;
-					}
-					else
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-				}
-				else
-				{
-					in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					return in;
-				}
-
-
-			}
-			else if (str == "key3")
-			{
-				in >> StringIO{ tmp.key3 } >> DelimiterIO{ ':' };
-				std::string str1;
-				std::istream_iterator<char> beg(in);
-				if (!in)
-				{
-					in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					return in;
-				}
-				for (int i = 0; i < 4 && *beg != '\0'; ++i)
-				{
-					if (i != 3)
-					{
-						str1 += *beg;
-						beg++;
-					}
-					else
-					{
-						str1 += *beg;
-					}
-				}
-				if (str1 == "key1")
-				{
-					in >> LongLongIO{ tmp.key1 } >> DelimiterIO{ ':' };
-					std::string str2;
-					std::istream_iterator<char> beg(in);
-					if (!in)
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-					for (int i = 0; i < 4 && *beg != '\0'; ++i)
-					{
-						if (i != 3)
-						{
-							str2 += *beg;
-							beg++;
-						}
-						else
-						{
-							str2 += *beg;
-						}
-					}
-					if (str2 == "key2")
-					{
-						in >> ComplexIO{ tmp.key2 } >> DelimiterIO{ ':' } >> DelimiterIO{ ')' };
-						if (in)
-						{
-							dest = tmp;
-						}
-						return in;
-					}
-					else
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-				}
-				else if (str1 == "key2")
-				{
-					in >> ComplexIO{ tmp.key2 } >> DelimiterIO{ ':' };
-					std::string str2;
-					std::istream_iterator<char> beg(in);
-					if (!in)
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-					for (int i = 0; i < 4 && *beg != '\0'; ++i)
-					{
-						if (i != 3)
-						{
-							str2 += *beg;
-							beg++;
-						}
-						else
-						{
-							str2 += *beg;
-						}
-					}
-					if (str2 == "key1")
-					{
-						in >> LongLongIO{ tmp.key1 } >> DelimiterIO{ ':' } >> DelimiterIO{ ')' };
-						if (in)
-						{
-							dest = tmp;
-						}
-						return in;
-					}
-					else
-					{
-						in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						return in;
-					}
-				}
-				else
-				{
-					in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					return in;
-				}
-			}
-			else
-			{
-			in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			return in;
-			}
+			in >> DelimiterIO{ ')' };
 		}
+		if (in)
+		{
+			dest = tmp;
+		}
+		return in;
 	}
 
 	std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
@@ -471,4 +181,19 @@ namespace DataStruct
 		}
 		return in;
 	}
+}
+
+std::istream& DataStruct::operator>>(std::istream& in, LabelIO&& dest)
+{
+	std::istream::sentry sentry(in);
+	if (!sentry)
+	{
+		return in;
+	}
+	in >> dest.ref;
+	if (!in)
+	{
+		in.setstate(std::ios::failbit);
+	}
+	return in;
 }

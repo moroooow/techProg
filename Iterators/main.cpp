@@ -11,20 +11,19 @@ int main()
 	std::ifstream in;
 
 	in.open("test.txt");
-	std::string line;
-	std::getline(in, line);
-	do
+	while (!in.eof())
 	{
-		if (!line.empty())
+		std::copy(std::istream_iterator<DataStruct>(in),
+			std::istream_iterator<DataStruct>(),
+			std::back_inserter(data)
+		);
+		if (in.fail())
 		{
-			std::istringstream iss(line);
-			std::copy(
-				std::istream_iterator< DataStruct >(iss),
-				std::istream_iterator< DataStruct >(),
-				std::back_inserter(data)
-			);
+			in.clear();
+			in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
-	} while (std::getline(in, line));
+	}
+
 
 	std::cout << "Data:\n";
 	std::copy(

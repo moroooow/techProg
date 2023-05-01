@@ -56,6 +56,8 @@ namespace DataStruct
 	std::istream& operator>>(std::istream& in, DoubleIO&& dest);
 	std::istream& operator>>(std::istream& in, LabelIO&& dest);
 
+	bool operator<(const DataStruct& a, const DataStruct& b);
+
 
 	class ScopeGuard
 	{

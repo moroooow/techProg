@@ -16,7 +16,8 @@ int main()
 		std::copy(std::istream_iterator<DataStruct>(in),
 			std::istream_iterator<DataStruct>(),
 			std::back_inserter(data)
-		);
+			);
+
 		if (in.fail())
 		{
 			in.clear();
@@ -24,6 +25,8 @@ int main()
 		}
 	}
 
+	std::sort(std::begin(data),
+		std::end(data));
 
 	std::cout << "Data:\n";
 	std::copy(

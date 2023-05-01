@@ -2,6 +2,21 @@
 
 namespace DataStruct
 {
+	bool operator<(const DataStruct& a, const DataStruct& b)
+	{
+		if (a.key1 != b.key1)
+		{
+			return a.key1 < b.key1;
+		}
+		else if (abs(a.key2) != abs(b.key2))
+		{
+			return abs(a.key2) < abs(b.key2);
+		}
+		else
+		{
+			return a.key3 < b.key3;
+		}
+	}
 
 	ScopeGuard::ScopeGuard(std::basic_ios<char>& s) :
 		s_(s),
@@ -42,7 +57,7 @@ namespace DataStruct
 		DataStruct tmp;
 		const size_t countKey = 3;
 		{
-			std::string lbl[countKey]={"","",""};
+			std::string lbl[countKey] = { "","","" };
 			in >> DelimiterIO{ '(' } >> DelimiterIO{ ':' };
 			for (int i = 0; i < countKey && in; i++)
 			{
@@ -76,9 +91,14 @@ namespace DataStruct
 			}
 			in >> DelimiterIO{ ')' };
 		}
-		if (in)
+		if (in && (in.peek()=='\n' || in.eof()))
 		{
 			dest = tmp;
+			dest = tmp;
+		}
+		else
+		{
+			in.setstate(std::ios::failbit);
 		}
 		return in;
 	}

@@ -148,16 +148,20 @@ namespace DataStruct
 			str1 += *beg;
 			beg++;
 		}
-		while (*beg > '0' && *beg < '9')
+		while (*beg >= '0' && *beg <= '9')
 		{
 			str1 += *beg;
 			beg++;
 		}
+		if (str1.empty())
+		{
+			in.setstate(std::ios::failbit);
+			return in;
+		}
 		dest.ref = std::stoi(str1);
 		std::string str;
 		str += *beg;
-		beg++;
-		str += *beg;
+		str += *(++beg);
 		if (str == "LL" || str == "ll")
 		{
 			return in;

@@ -1,7 +1,5 @@
-(:key1 123ll:key2 #c(2.0 5.0):key3 "78ll":)
-(:key2 #c(2.0 -1.0):key1 9ll:key3 "data":)
+(:key1 -0ll:key2 #c(2.0 5.0):key3 "78ll":)
+(:key2 #c(4.0 -1.0):key1 9ll:key3 "data":)
+(:key2 #c(2.0 -1.0):key1 9ll:key3 "data:)
 (:key1 1ll:key2 #c(232.0 -1.0):key3 "12":)
-û 
-ôûâ
-â
 ôûâ

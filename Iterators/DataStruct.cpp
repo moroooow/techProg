@@ -91,9 +91,8 @@ namespace DataStruct
 			}
 			in >> DelimiterIO{ ')' };
 		}
-		if (in && (in.peek()=='\n' || in.eof()))
+		if (in)
 		{
-			dest = tmp;
 			dest = tmp;
 		}
 		else
@@ -126,7 +125,24 @@ namespace DataStruct
 		{
 			return in;
 		}
-		return std::getline(in >> DelimiterIO{ '"' }, dest.ref, '"');
+		std::string str;
+		in >> DelimiterIO{ '"' };
+		std::istream_iterator<char> beg(in);
+		while (*beg != '\"' && in.peek() != '\n')
+		{
+			str += *beg;
+			beg++;
+		}
+		if (*beg == '\"')
+		{
+			dest.ref = str;
+		}
+		else
+		{
+			in.setstate(std::ios::failbit);
+		}
+
+		return in;
 	}
 
 	std::istream& operator>>(std::istream& in, LongLongIO&& dest)
@@ -136,39 +152,19 @@ namespace DataStruct
 		{
 			return in;
 		}
+		int long long tmp;
+		in >> tmp;
 		std::istream_iterator<char> beg(in);
-		std::string str1;
-		if (*beg == '0')
-		{
-			in.setstate(std::ios::failbit);
-			return in;
-		}
-		if (*beg == '-')
-		{
-			str1 += *beg;
-			beg++;
-		}
-		while (*beg >= '0' && *beg <= '9')
-		{
-			str1 += *beg;
-			beg++;
-		}
-		if (str1.empty())
-		{
-			in.setstate(std::ios::failbit);
-			return in;
-		}
-		dest.ref = std::stoi(str1);
 		std::string str;
+		str += *beg++;
 		str += *beg;
-		str += *(++beg);
 		if (str == "LL" || str == "ll")
 		{
-			return in;
+			dest.ref = tmp;
 		}
 		else
 		{
-			in.setstate(std::istream::failbit);
+			in.setstate(std::ios::failbit);
 		}
 		return in;
 	}

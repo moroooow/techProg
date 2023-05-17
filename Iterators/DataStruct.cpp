@@ -95,10 +95,6 @@ namespace DataStruct
 		{
 			dest = tmp;
 		}
-		else
-		{
-			in.setstate(std::ios::failbit);
-		}
 		return in;
 	}
 
@@ -141,7 +137,6 @@ namespace DataStruct
 		{
 			in.setstate(std::ios::failbit);
 		}
-
 		return in;
 	}
 
@@ -152,19 +147,26 @@ namespace DataStruct
 		{
 			return in;
 		}
+
 		int long long tmp;
 		in >> tmp;
-		std::istream_iterator<char> beg(in);
-		std::string str;
-		str += *beg++;
-		str += *beg;
-		if (str == "LL" || str == "ll")
+
+		if (in.peek() == 'l')
 		{
-			dest.ref = tmp;
+			in >> DelimiterIO{ 'l' } >> DelimiterIO{ 'l' };
+		}
+		else if (in.peek() == 'L')
+		{
+			in >> DelimiterIO{ 'L' } >> DelimiterIO{ 'L' };
 		}
 		else
 		{
 			in.setstate(std::ios::failbit);
+		}
+
+		if (in)
+		{
+			dest.ref = tmp;
 		}
 		return in;
 	}
